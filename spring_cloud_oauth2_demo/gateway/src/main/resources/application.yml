@@ -1,0 +1,22 @@
+server:
+  port: 5001
+spring:
+  application:
+    name: gateway
+  cloud:
+    gateway:
+      routes: # 网关路由配置
+        - id: resource_server1 # 路由id，自定义，只要唯一即可
+          uri: http://127.0.0.1:4001 # 路由的目的地址 http 是固定地址
+          predicates: # 路由断言
+            - Path=/resource1/**
+        - id: resource_server2
+          uri: http://127.0.0.1:4002
+          predicates:
+            - Path=/resource2/**
+        - id: authorization_server
+          uri: http://127.0.0.1:3001
+          predicates:
+            - Path=/oauth/**
+    nacos:
+      server-addr: localhost:8848
